@@ -17,7 +17,7 @@ public static class Log {
 
   public static void Debug(string message) {
     if (!Hub.Settings.DebugMode) return;
-      Write("DEBUG", message);
+    Write("DEBUG", message);
   }
   
   private static void Write(string level, string message) {
