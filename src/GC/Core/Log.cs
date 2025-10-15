@@ -16,7 +16,7 @@ public static class Log {
   }
 
   public static void Debug(string message) {
-    if (!Base.Settings.DebugMode) return;
+    if (Base.Settings is not { DebugMode: true }) return;
     Write("DEBUG", message);
   }
   
