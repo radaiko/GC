@@ -49,19 +49,25 @@ jobs:
           # build solution
           dotnet build src
 
-          # run tests with Coverlet producing an OpenCover report at repository root
-          # This uses the built-in coverlet integration for dotnet test
-          dotnet test src --collect:"XPlat Code Coverage" --results-directory "$PWD/test-results"
+          # run tests with Coverlet using the runsettings which requests OpenCover format
+          dotnet test src --settings "$PWD/coverage.runsettings" --results-directory "$PWD/test-results"
 
           # Convert coverage to opencover if needed (reportgenerator can do this), but SonarScanner supports the coverage produced by Coverlet (cobertura)
           # If you prefer OpenCover format, ensure test projects reference coverlet.collector and use --collect as above.
           # Move or copy the coverage file to the expected path if necessary
-          $cobertura = Get-ChildItem -Path "$PWD\test-results" -Recurse -Filter "coverage.cobertura.xml" | Select-Object -First 1
-          if ($cobertura) {
-            Copy-Item $cobertura.FullName $reportPath -Force
+          # Look for an OpenCover report produced by the runsettings (commonly named opencover.xml or coverage.opencover.xml)
+          $opencover = Get-ChildItem -Path "$PWD\test-results" -Recurse -Include "opencover.xml","coverage.opencover.xml" | Select-Object -First 1
+          if ($opencover) {
+            Copy-Item $opencover.FullName $reportPath -Force
           } else {
-            # fallback: look for codecoverage files (Visual Studio format) and try to convert if ReportGenerator is available
-            Write-Host "Coverage file not found at expected location. SonarCloud may not show coverage.";
+            # As a fallback, look for Cobertura and optionally convert later
+            $cobertura = Get-ChildItem -Path "$PWD\test-results" -Recurse -Filter "coverage.cobertura.xml" | Select-Object -First 1
+            if ($cobertura) {
+              Copy-Item $cobertura.FullName $reportPath -Force
+              Write-Host "Only Cobertura file found and copied; SonarScanner expects OpenCover. If Sonar fails, enable ReportGenerator conversion or use coverlet.msbuild to produce OpenCover directly."
+            } else {
+              Write-Host "Coverage file not found at expected location. SonarCloud may not show coverage.";
+            }
           }
 
           ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
