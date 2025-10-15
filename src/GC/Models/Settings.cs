@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Text.Json;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -7,7 +8,7 @@ using Microsoft.Maui.Storage;
 namespace GC.Models;
 
 public partial class Settings : ObservableObject {
-  private static readonly string StoragePath = Path.Combine(FileSystem.AppDataDirectory, "settings.json");
+  private static readonly string StoragePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "settings.json");
   private const string GourmetPasswordKey = "settings_gourmet_password";
   private const string VentoPasswordKey = "settings_vento_password";
   // When true, Save() will no-op so we can set properties during Load without persisting repeatedly
@@ -38,8 +39,9 @@ public partial class Settings : ObservableObject {
       if (!File.Exists(StoragePath)) {
         Log.Info("Settings file not found, using defaults");
         // Try to read passwords if available, otherwise empty defaults
-        var defaults = new Settings();
-        defaults._loading = true;
+        var defaults = new Settings {
+          _loading = true
+        };
         try {
           defaults.GourmetPassword = SecureStorage.GetAsync(GourmetPasswordKey).GetAwaiter().GetResult();
         }
