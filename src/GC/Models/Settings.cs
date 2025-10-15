@@ -38,8 +38,9 @@ public partial class Settings : ObservableObject {
       if (!File.Exists(StoragePath)) {
         Log.Info("Settings file not found, using defaults");
         // Try to read passwords if available, otherwise empty defaults
-        var defaults = new Settings();
-        defaults._loading = true;
+        var defaults = new Settings {
+          _loading = true
+        };
         try {
           defaults.GourmetPassword = SecureStorage.GetAsync(GourmetPasswordKey).GetAwaiter().GetResult();
         }
@@ -59,7 +60,7 @@ public partial class Settings : ObservableObject {
       }
 
       var json = File.ReadAllText(StoragePath);
-      var data = JsonSerializer.Deserialize<SerializedSettings>(json) ?? new SerializedSettings();
+      var data = JsonSerializer.Deserialize<SerializedSettings>(json, Base.JsonOptions) ?? new SerializedSettings();
 
       // Create instance and set backing fields directly to avoid firing change handlers during load
       var settings = new Settings();
@@ -108,7 +109,7 @@ public partial class Settings : ObservableObject {
         DebugMode = this.DebugMode
       };
 
-      var json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+      var json = JsonSerializer.Serialize(data, Base.JsonOptions);
       File.WriteAllText(StoragePath, json);
 
       // Store passwords in platform secure storage. Call synchronously to keep this method signature simple.
