@@ -1,4 +1,3 @@
-using System.Reflection;
 using GC.Models;
 
 namespace GC.UnitTests;
@@ -7,9 +6,7 @@ public class SettingsTests {
   private static readonly Lock FileLock = new();
 
   private static string GetStoragePath() {
-    var f = typeof(Settings).GetField("StoragePath", BindingFlags.NonPublic | BindingFlags.Static);
-    if (f == null) throw new InvalidOperationException("StoragePath field not found");
-    return f.GetValue(null) as string ?? throw new InvalidOperationException("StoragePath is null");
+    return Settings.StoragePath;
   }
 
   [Fact]
