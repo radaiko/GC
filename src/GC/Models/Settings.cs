@@ -92,7 +92,7 @@ public partial class Settings : ObservableObject {
       Log.Debug("Settings loaded");
       return settings;
     }
-    catch (System.Exception ex) {
+    catch (Exception ex) {
       Log.Error($"Failed to load settings: {ex.Message}");
       return new Settings();
     }
@@ -139,7 +139,7 @@ public partial class Settings : ObservableObject {
 
       Log.Debug("Settings saved");
     }
-    catch (System.Exception ex) {
+    catch (Exception ex) {
       Log.Error($"Failed to save settings: {ex.Message}");
     }
   }

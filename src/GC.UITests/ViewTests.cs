@@ -1,9 +1,7 @@
 // New: headless tests for Views (MainView and MainWindow)
-using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.VisualTree;
-using Xunit;
 using GC.ViewModels;
 using GC.Views;
 
@@ -29,12 +27,8 @@ public class ViewTests
 
     // Find the TextBlock descendant inside the view
     // Try direct Content (common when UserControl contains a single root element)
-    var textBlock = view.Content as TextBlock;
     // Fallback to visual tree search if Content isn't the TextBlock
-    if (textBlock == null)
-    {
-      textBlock = window.GetVisualDescendants().OfType<TextBlock>().FirstOrDefault();
-    }
+    var textBlock = view.Content as TextBlock ?? window.GetVisualDescendants().OfType<TextBlock>().FirstOrDefault();
     Assert.NotNull(textBlock);
     Assert.Equal(vm.Greeting, textBlock.Text);
    }
