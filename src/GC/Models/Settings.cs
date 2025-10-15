@@ -23,14 +23,14 @@ public partial class Settings : ObservableObject {
   [ObservableProperty] private bool _debugMode;
 
   // Attach on all properties to save on change
-  partial void OnGourmetUsernameChanged(string? value) { _ = value; Save(); }
-  partial void OnGourmetPasswordChanged(string? value) { _ = value; Save(); }
-  partial void OnVentoUsernameChanged(string? value) { _ = value; Save(); }
-  partial void OnVentoPasswordChanged(string? value) { _ = value; Save(); }
-  partial void OnDebugModeChanged(bool value) { _ = value; Save(); }
+  partial void OnGourmetUsernameChanged(string? _) => Save();
+  partial void OnGourmetPasswordChanged(string? _) => Save();
+  partial void OnVentoUsernameChanged(string? _) => Save();
+  partial void OnVentoPasswordChanged(string? _) => Save();
+  partial void OnDebugModeChanged(bool _) => Save();
   
   // Private DTO used for JSON serialization so we don't trigger property-change side effects
-  private class SerializedSettings {
+  private sealed class SerializedSettings {
     public string? GourmetUsername { get; set; }
     public string? VentoUsername { get; set; }
     public bool DebugMode { get; set; }
@@ -63,7 +63,7 @@ public partial class Settings : ObservableObject {
       }
 
       var json = File.ReadAllText(StoragePath);
-      var data = JsonSerializer.Deserialize<SerializedSettings>(json) ?? new SerializedSettings();
+      var data = JsonSerializer.Deserialize<SerializedSettings>(json, Base.JsonOptions) ?? new SerializedSettings();
 
       // Create instance and set backing fields directly to avoid firing change handlers during load
       var settings = new Settings();
@@ -112,7 +112,7 @@ public partial class Settings : ObservableObject {
         DebugMode = this.DebugMode
       };
 
-      var json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+      var json = JsonSerializer.Serialize(data, Base.JsonOptions);
       File.WriteAllText(StoragePath, json);
 
       // Store passwords in platform secure storage. Call synchronously to keep this method signature simple.
