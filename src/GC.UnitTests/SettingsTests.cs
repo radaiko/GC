@@ -2,7 +2,7 @@ using GC.Models;
 
 namespace GC.UnitTests;
 
-public class SettingsTests {
+public class SettingsTests(ITestOutputHelper output) {
   private static readonly Lock FileLock = new();
 
   private static string GetStoragePath() {
@@ -13,7 +13,7 @@ public class SettingsTests {
   public void Load_ReturnsDefaults_WhenFileMissing() {
     var path = GetStoragePath();
     var dir = Path.GetDirectoryName(path);
-    Console.WriteLine($"[TEST] Load_ReturnsDefaults_WhenFileMissing StoragePath={path} DirExists={(!string.IsNullOrEmpty(dir) && Directory.Exists(dir))}");
+    output.WriteLine($"[TEST] Load_ReturnsDefaults_WhenFileMissing StoragePath={path} DirExists={(!string.IsNullOrEmpty(dir) && Directory.Exists(dir))}");
     lock (FileLock) {
       if (File.Exists(path)) File.Delete(path);
 
@@ -54,7 +54,7 @@ public class SettingsTests {
 
       // Debug: print the file contents we just wrote
       var written = File.ReadAllText(path);
-      Console.WriteLine($"[TEST] Written JSON: {written}");
+      output.WriteLine($"[TEST] Written JSON: {written}");
 
       // Verify the file contains the expected keys/values (format the app expects)
       Assert.Contains("\"gourmetUsername\": \"user1\"", written);
