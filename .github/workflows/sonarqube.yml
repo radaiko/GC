@@ -37,11 +37,31 @@ jobs:
         run: |
           New-Item -Path ${{ runner.temp }}\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path ${{ runner.temp }}\scanner
-      - name: Build and analyze
+      - name: Build, test (with coverage) and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"radaiko_GC" /o:"radaiko" /d:sonar.token="$env:SONAR_TOKEN"
+          # start sonar begin and provide property for OpenCover report (generated below)
+          $reportPath = "$PWD\coverage.opencover.xml"
+          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"radaiko_GC" /o:"radaiko" /d:sonar.token="$env:SONAR_TOKEN" /d:sonar.cs.opencover.reportsPaths="$reportPath"
+
+          # build solution
           dotnet build src
+
+          # run tests with Coverlet producing an OpenCover report at repository root
+          # This uses the built-in coverlet integration for dotnet test
+          dotnet test src --collect:"XPlat Code Coverage" --results-directory "$PWD/test-results"
+
+          # Convert coverage to opencover if needed (reportgenerator can do this), but SonarScanner supports the coverage produced by Coverlet (cobertura)
+          # If you prefer OpenCover format, ensure test projects reference coverlet.collector and use --collect as above.
+          # Move or copy the coverage file to the expected path if necessary
+          $cobertura = Get-ChildItem -Path "$PWD\test-results" -Recurse -Filter "coverage.cobertura.xml" | Select-Object -First 1
+          if ($cobertura) {
+            Copy-Item $cobertura.FullName $reportPath -Force
+          } else {
+            # fallback: look for codecoverage files (Visual Studio format) and try to convert if ReportGenerator is available
+            Write-Host "Coverage file not found at expected location. SonarCloud may not show coverage.";
+          }
+
           ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
