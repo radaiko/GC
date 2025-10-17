@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat Code Coverage" uri="datacollector://microsoft/CodeCoverage/2.0">
+        <Configuration>
+          <!-- Use coverlet data collector with OpenCover output -->
+          <Format>opencover</Format>
+          <!-- You can set CoverletOutput and other properties per test run if needed -->
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>

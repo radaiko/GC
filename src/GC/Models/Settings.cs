@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Text.Json;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -7,7 +8,9 @@ using Microsoft.Maui.Storage;
 namespace GC.Models;
 
 public partial class Settings : ObservableObject {
-  private static readonly string StoragePath = Path.Combine(FileSystem.AppDataDirectory, "settings.json");
+  internal static readonly string StoragePath = Hub.IsTesting 
+    ? Path.Combine(Path.GetTempPath(), "settings_test.json")
+    : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "settings.json");
   private const string GourmetPasswordKey = "settings_gourmet_password";
   private const string VentoPasswordKey = "settings_vento_password";
   // When true, Save() will no-op so we can set properties during Load without persisting repeatedly
@@ -89,7 +92,7 @@ public partial class Settings : ObservableObject {
       Log.Debug("Settings loaded");
       return settings;
     }
-    catch (System.Exception ex) {
+    catch (Exception ex) {
       Log.Error($"Failed to load settings: {ex.Message}");
       return new Settings();
     }
@@ -136,7 +139,7 @@ public partial class Settings : ObservableObject {
 
       Log.Debug("Settings saved");
     }
-    catch (System.Exception ex) {
+    catch (Exception ex) {
       Log.Error($"Failed to save settings: {ex.Message}");
     }
   }
