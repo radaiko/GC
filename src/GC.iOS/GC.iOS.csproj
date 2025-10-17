@@ -4,6 +4,8 @@
         <TargetFramework>net9.0-ios26.0</TargetFramework>
         <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
         <Nullable>enable</Nullable>
+        <UseInterpreter>true</UseInterpreter>
+        <PublishTrimmed>true</PublishTrimmed>
     </PropertyGroup>
 
     <!-- iOS specific properties -->

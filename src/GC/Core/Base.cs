@@ -4,7 +4,7 @@ using GC.Models;
 namespace GC.Core;
 
 public static class Base {
-  public static bool IsDarkMode { get; set; } = false;
+  public static bool IsDarkMode { get; set; } = true;
   public static JsonSerializerOptions JsonOptions { get; } = new() {
     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
     WriteIndented = true,

@@ -23,11 +23,13 @@ public partial class Settings : ObservableObject {
   [ObservableProperty] private bool _debugMode;
 
   // Attach on all properties to save on change
+  // ReSharper disable PartialMethodParameterNameMismatch
   partial void OnGourmetUsernameChanged(string? _) => Save();
   partial void OnGourmetPasswordChanged(string? _) => Save();
   partial void OnVentoUsernameChanged(string? _) => Save();
   partial void OnVentoPasswordChanged(string? _) => Save();
   partial void OnDebugModeChanged(bool _) => Save();
+  // ReSharper restore PartialMethodParameterNameMismatch
   
   // Private DTO used for JSON serialization so we don't trigger property-change side effects
   private sealed class SerializedSettings {

@@ -1,4 +1,6 @@
+using System;
 using Avalonia.Controls;
+using GC.Core;
 
 namespace GC.Views;
 
