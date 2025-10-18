@@ -15,7 +15,7 @@ public class Carousel : UserControl {
   #endregion
 
   #region Properties -----------------------------------------------------------
-  public List<MenuDayPanel> Items { get; set; } = [];
+  public List<Control> Items { get; set; } = [];
 
   public int CurrentIndex { get; private set; }
 

@@ -2,8 +2,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:GC.ViewModels"
+             xmlns:core="clr-namespace:GC.Core"
              xmlns:controls="clr-namespace:GC.Controls"
              mc:Ignorable="d" d:DesignWidth="360" d:DesignHeight="800"
+             x:DataType="vm:OrderViewModel" 
              x:Class="GC.Views.Order.OrderViewMobile">
-    <controls:Carousel x:Name="DayCarousel" />
+    <Design.DataContext>
+        <vm:OrderViewModel />
+    </Design.DataContext>
+    <!-- <controls:Carousel x:Name="DayCarousel" /> -->
+    Avalonia test
 </UserControl>
