@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Win32;
@@ -30,8 +31,9 @@ public static class DeviceKeyDeriver {
     }
     throw new PlatformNotSupportedException();
   }
-
-  private static string GetWindowsId() => (string)Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Cryptography")?.GetValue("MachineGuid") ?? Environment.MachineName;
+  
+  [SupportedOSPlatform("windows")]
+  private static string GetWindowsId() => Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Cryptography")?.GetValue("MachineGuid") as string ?? Environment.MachineName;
 
   private static string GetMacId() {
     var p = new Process { StartInfo = new ProcessStartInfo { FileName = "ioreg", Arguments = "-rd1 -c IOPlatformExpertDevice", RedirectStandardOutput = true } };
