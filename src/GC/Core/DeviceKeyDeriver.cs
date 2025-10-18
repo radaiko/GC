@@ -9,6 +9,8 @@ using Microsoft.Win32; // Windows only
 using Android.Provider; // Android only
 using UIKit; // iOS only
 
+namespace GC.Core;
+
 public static class DeviceKeyDeriver
 {
     public static string GetDevicePassphrase()
@@ -38,7 +40,7 @@ public static class DeviceKeyDeriver
             return GetIosId();
         throw new PlatformNotSupportedException();
     }
-
+    
     private static string GetWindowsId()
     {
         return (string)Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Cryptography")?.GetValue("MachineGuid") ?? Environment.MachineName;
@@ -50,8 +52,8 @@ public static class DeviceKeyDeriver
         p.Start();
         string output = p.StandardOutput.ReadToEnd();
         p.WaitForExit();
-        int start = output.IndexOf("IOPlatformSerialNumber") + "\"IOPlatformSerialNumber\" = \"".Length;
-        int end = output.IndexOf("\"", start);
+        int start = output.IndexOf("IOPlatformSerialNumber", StringComparison.Ordinal) + "\"IOPlatformSerialNumber\" = \"".Length;
+        int end = output.IndexOf("\"", start, StringComparison.Ordinal);
         return output.Substring(start, end - start);
     }
 
