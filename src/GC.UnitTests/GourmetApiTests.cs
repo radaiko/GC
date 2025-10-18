@@ -1,4 +1,5 @@
 using GC.Core;
+using GC.Models.Order;
 using GC.WebApis;
 
 namespace GC.UnitTests;
@@ -25,7 +26,7 @@ public class GourmetApiTests
     public async Task GetMenusAsync_ReturnsMenus()
     {
         // This test assumes the endpoint is reachable and returns at least one menu
-        List<GourmetApi.MenuInfo> menus = await GourmetApi.GetMenusAsync();
+        List<Menu> menus = await GourmetApi.GetMenusAsync();
         Assert.NotNull(menus);
         Assert.True(menus.Count > 0, "GetMenusAsync should return at least one menu.");
     }
