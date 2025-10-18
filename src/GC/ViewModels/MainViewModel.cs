@@ -51,6 +51,8 @@ public partial class MainViewModel : ObservableObject {
       // Switch to SettingsViewMobile
       CurrentView = new SettingsViewMobile();
     }
-    Log.Error ("OrderViewDesktop not implemented yet");
+    else {
+      Log.Error ("SettingsViewDesktop not implemented yet");
+    }
   }
 }

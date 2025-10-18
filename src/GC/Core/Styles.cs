@@ -21,13 +21,16 @@ public static class Styles {
   public static readonly Thickness CompactPadding = new(CompactMargin);
   public static readonly Thickness LargePadding = new(LargeMargin);
 
-  public const double StandardMargin = 16.0;
-  public const double CompactMargin = 8.0;
-  public const double LargeMargin = 24.0;
+  private const double StandardMargin = 16.0;
+  private const double CompactMargin = 8.0;
+  private const double LargeMargin = 24.0;
   
   // Radius --------------------------------------------------------------------
-  public const double StandardCornerRadius = 8.0;
-  public const double LargeCornerRadius = 16.0;
+  public static readonly CornerRadius StandardCornerRadius = new CornerRadius(StandardRadius);
+  public static readonly  CornerRadius LargeCornerRadius = new CornerRadius(LargeRadius);
+  
+  private const double StandardRadius = 8.0;
+  private const double LargeRadius = 16.0;
   
   
   // Icons ---------------------------------------------------------------------
