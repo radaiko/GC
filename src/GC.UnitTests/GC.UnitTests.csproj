@@ -15,17 +15,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest"/>
+        <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 
     <ItemGroup>
-        <Using Include="Xunit"/>
+        <Using Include="Xunit" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0"/>
-        <PackageReference Include="xunit.v3" Version="3.1.0"/>
-        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5"/>
+        <PackageReference Include="DotNetEnv" Version="3.1.1" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+        <PackageReference Include="xunit.v3" Version="3.1.0" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
         <PackageReference Include="coverlet.collector" Version="6.0.0" />
     </ItemGroup>
 

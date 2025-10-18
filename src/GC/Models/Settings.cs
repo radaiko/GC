@@ -32,7 +32,9 @@ public partial class Settings : ObservableObject {
   // Private DTO used for JSON serialization so we don't trigger property-change side effects
   private sealed class SerializedSettings {
     public string? GourmetUsername { get; init; }
+    public string? GourmetPassword { get; init; }
     public string? VentoUsername { get; init; }
+    public string? VentoPassword { get; init; }
     public bool DebugMode { get; init; }
   }
 
@@ -51,7 +53,9 @@ public partial class Settings : ObservableObject {
       var settings = new Settings {
         _loading = true,
         GourmetUsername = data.GourmetUsername,
+        GourmetPassword = data.GourmetPassword,
         VentoUsername = data.VentoUsername,
+        VentoPassword = data.VentoPassword,
         DebugMode = data.DebugMode
       };
       settings._loading = false;
@@ -71,7 +75,9 @@ public partial class Settings : ObservableObject {
       if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir)) Directory.CreateDirectory(dir);
       var data = new SerializedSettings {
         GourmetUsername = GourmetUsername,
+        GourmetPassword = GourmetPassword,
         VentoUsername = VentoUsername,
+        VentoPassword = VentoPassword,
         DebugMode = DebugMode
       };
       var json = JsonSerializer.Serialize(data, Base.JsonOptions);

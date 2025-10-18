@@ -3,6 +3,7 @@ using Android.Content.PM;
 using Avalonia;
 using Avalonia.Android;
 using Avalonia.ReactiveUI;
+using GC.Core;
 
 namespace GC.Android;
 
@@ -14,8 +15,13 @@ namespace GC.Android;
   ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize | ConfigChanges.UiMode)]
 public class MainActivity : AvaloniaMainActivity<App> {
   protected override AppBuilder CustomizeAppBuilder(AppBuilder builder) {
+    Initialize();
     return base.CustomizeAppBuilder(builder)
       .WithInterFont()
       .UseReactiveUI();
+  }
+
+  void Initialize() {
+    Base.DeviceKey = DeviceKeyDeriver.GetDevicePassphrase();
   }
 }

@@ -11,7 +11,7 @@ public static class Crypto {
   private const int SaltSize = 16;
   private const int Iterations = 10000;
 
-  private static readonly string Passphrase = DeviceKeyDeriver.GetDevicePassphrase();
+  private static readonly string Passphrase = Base.DeviceKey ?? throw new InvalidOperationException("Device key is not set.");
   
   public static string? Encrypt(string? password) {
     if (string.IsNullOrEmpty(password)) return null;

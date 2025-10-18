@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GC.Core;
+using GC.Views.Order;
 using GC.Views.Settings;
 
 namespace GC.ViewModels;
@@ -19,13 +20,22 @@ public partial class MainViewModel : ObservableObject {
       Log.Info("Settings incomplete, switching to settings view");
       // Switch to settings view
       SwitchToSettings();
+    } else {
+      Log.Info("Settings complete, switching to order view");
+      // Switch to order view
+      SwitchOrder();
     }
   }
 
   [RelayCommand]
   private void SwitchOrder() {
     Log.Info("Switching to order view");
-    // Logic to switch to order view
+    if (Base.IsMobile) {
+      CurrentView = new OrderViewMobile();
+    }
+    else {
+      Log.Error ("OrderViewDesktop not implemented yet");
+    }
   }
 
   [RelayCommand]
@@ -41,6 +51,6 @@ public partial class MainViewModel : ObservableObject {
       // Switch to SettingsViewMobile
       CurrentView = new SettingsViewMobile();
     }
-    // Switch to SettingsViewDesktop
+    Log.Error ("OrderViewDesktop not implemented yet");
   }
 }

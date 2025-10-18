@@ -24,5 +24,7 @@ public static class Base {
   public static bool IsMobile { get; } = OperatingSystem.IsAndroid() || OperatingSystem.IsIOS();
   
   internal static bool IsTesting { get; set; } = false;
-  
+
+  public static string? DeviceKey;
+
 }
