@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:core="clr-namespace:GC.Core"
+             xmlns:controls="clr-namespace:GC.Controls"
+             x:Class="GC.Controls.Toggle">
+    <Grid Margin="12,0,0,0">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Text="{Binding Text, RelativeSource={RelativeSource AncestorType=controls:Toggle}}"
+               VerticalAlignment="Center"
+               Foreground="{x:Static core:Styles.TextBrush}" />
+    <ToggleSwitch Grid.Column="1"
+                  IsChecked="{Binding State, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=controls:Toggle}}"
+                  VerticalAlignment="Center"
+                  Background="Transparent"
+                  OnContent=""
+                  OffContent="" />
+    </Grid>
+</UserControl>

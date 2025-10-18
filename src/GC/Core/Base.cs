@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json;
 using GC.Models;
 
@@ -10,7 +11,18 @@ public static class Base {
     WriteIndented = true,
     DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
   };
-  public static Settings Settings { get; } = Settings.Load();
+
+  public static Settings Settings {
+    get {
+      _cachedSettings ??= Settings.Load();
+      return _cachedSettings;
+    }
+  }
+
+  private static Settings? _cachedSettings;
   
+  public static bool IsMobile { get; } = OperatingSystem.IsAndroid() || OperatingSystem.IsIOS();
+  
+  internal static bool IsTesting { get; set; } = false;
   
 }

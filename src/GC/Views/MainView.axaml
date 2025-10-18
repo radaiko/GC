@@ -16,31 +16,34 @@
 
   <Grid RowDefinitions="*,Auto">
     <!-- Main content area -->
-    <TextBlock x:Name="GreetingText" Text="{Binding Greeting}" 
-               HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{x:Static core:Styles.TextBrush}" />
+    <ContentControl Content="{Binding CurrentView}" />
 
-    <!-- Bottom iOS-like tab bar -->
-    <Border Grid.Row="1" Background="{x:Static core:Styles.BackgroundBrush}" 
+    <!-- Bottom tab bar -->
+    <Border Grid.Row="1" Background="{x:Static core:Styles.BackgroundBrush}"
             Padding="10" CornerRadius="18" Margin="12" VerticalAlignment="Bottom">
-      <Grid ColumnDefinitions="*,*,*">
-        <!-- Order Tab -->
-        <Button Grid.Column="0" Background="Transparent" BorderBrush="Transparent" Command="{Binding SwitchOrderCommand}" CommandParameter="0"
-                HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-          <Image Source="{x:Static core:Styles.OrderIcon}" Width="18" Height="18" HorizontalAlignment="Center" />
-        </Button>
-
-        <!-- Billings Tab -->
-        <Button Grid.Column="1" Background="Transparent" BorderBrush="Transparent" Command="{Binding SwitchToBillingCommand}" CommandParameter="1"
-                HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-          <Image Source="{x:Static core:Styles.BillingIcon}" Width="18" Height="18" HorizontalAlignment="Center" />
-        </Button>
-
-        <!-- Settings Tab -->
-        <Button Grid.Column="2" Background="Transparent" BorderBrush="Transparent" Command="{Binding SwitchToSettingsCommand}" CommandParameter="2"
-                HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-          <Image Source="{x:Static core:Styles.SettingsIcon}" Width="18" Height="18" HorizontalAlignment="Center" />
-        </Button>
+      <Grid RowDefinitions="5, *">
+        <Separator></Separator>
+        <Grid Grid.Row="1" ColumnDefinitions="*,*,*">
+          <!-- Order Tab -->
+          <Button Grid.Column="0" Background="Transparent" BorderBrush="Transparent" Command="{Binding SwitchOrderCommand}" CommandParameter="0"
+                  HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Image Source="{x:Static core:Styles.OrderIcon}" Width="18" Height="18" HorizontalAlignment="Center" />
+          </Button>
+      
+          <!-- Billings Tab -->
+          <Button Grid.Column="1" Background="Transparent" BorderBrush="Transparent" Command="{Binding SwitchToBillingCommand}" CommandParameter="1"
+                  HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Image Source="{x:Static core:Styles.BillingIcon}" Width="18" Height="18" HorizontalAlignment="Center" />
+          </Button>
+      
+          <!-- Settings Tab -->
+          <Button Grid.Column="2" Background="Transparent" BorderBrush="Transparent" Command="{Binding SwitchToSettingsCommand}" CommandParameter="2"
+                  HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Image Source="{x:Static core:Styles.SettingsIcon}" Width="18" Height="18" HorizontalAlignment="Center" />
+          </Button>
+        </Grid>
       </Grid>
+      
     </Border>
   </Grid>
 

@@ -27,6 +27,16 @@ public partial class App : Application {
       };
     }
 
+    // Pre-warm platform Bitmaps on the UI thread to avoid iOS crashes where
+    // native layer/texture creation occurs on a background thread.
+    try {
+      Core.Styles.PreWarmIcons();
+      Log.Info("Pre-warmed platform icons on UI thread");
+    }
+    catch (System.Exception ex) {
+      Log.Warn($"Failed to pre-warm icons: {ex}");
+    }
+
     base.OnFrameworkInitializationCompleted();
   }
 }
